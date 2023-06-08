@@ -6,7 +6,6 @@ function QuizCard(props) {
   const { setUser } = useUser();
   const [showSolution, setShowSolution] = useState(false);
   const [timer, setTimer] = useState(10);
-  const [end, setEnd] = useState(false);
 
   const {
     object,

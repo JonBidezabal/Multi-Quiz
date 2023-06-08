@@ -35,6 +35,8 @@ const Topics = ({ setStart, start }) => {
       return "https://opentdb.com/api.php?amount=50&category=11&type=multiple";
     } else if (topic === "Science & nature") {
       return "https://opentdb.com/api.php?amount=50&category=17&type=multiple";
+    } else if (topic === "Sports") {
+      return "https://opentdb.com/api.php?amount=50&category=21&type=multiple";
     }
   };
 
@@ -62,6 +64,11 @@ const Topics = ({ setStart, start }) => {
               <Grid item>
                 <Button variant="contained" onClick={handleSelectTopic}>
                   Science & nature
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" onClick={handleSelectTopic}>
+                  Sports
                 </Button>
               </Grid>
             </Grid>

@@ -3,6 +3,7 @@ import Home from './Home'
 import Quiz from './Quiz'
 import { useState } from 'react'
 
+
 function App() {
 
   const [start, setStart] = useState(false)
@@ -12,6 +13,7 @@ function App() {
 
   return (
     <>
+    <div className='container'>
       {!start && <Home setStart={setStart} start={start} active={active} setActive={setActive}/>}
        <Quiz 
         setActive={setActive}
@@ -23,6 +25,7 @@ function App() {
         end={end} 
         setEnd={setEnd}
         />
+    </div>
     </>
   )
 }
