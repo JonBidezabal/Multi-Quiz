@@ -1,7 +1,11 @@
 import { useData } from "./DataContext"
+import { useUser } from "./UserContext";
+import { useEffect } from "react";
 import QuizCard from "./QuizCard";
 import useRandomObjects from "./hooks/useRandomObjects"
 import useModifiedArrayObj from "./hooks/useChangeArray";
+import Ranking from "./Ranking";
+import { Button } from "@mui/material";
 
 function Quiz(props) {
     
@@ -17,14 +21,32 @@ function Quiz(props) {
           } = props
 
     const {quiz} = useData()
+    const { setUser } = useUser();
 
+    
     const provisionalQuiz = useRandomObjects(quiz);
     const ultimateQuiz = useModifiedArrayObj(provisionalQuiz)
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 1);
       };
-    
+      
+      const handlePlayAgain = () => {
+        setUser({
+          username: "",
+          score: 0,
+        });
+        setCurrentIndex(0);
+        setActive(false);
+        setStart(false);
+        setEnd(false);
+      };
+
+      useEffect(() => {
+        if (ultimateQuiz && currentIndex === ultimateQuiz.length) {
+          setEnd(true);
+        }
+      }, [ultimateQuiz, currentIndex]);
 
   return (
     <>
@@ -32,17 +54,18 @@ function Quiz(props) {
     <QuizCard
         object={ultimateQuiz[currentIndex]}
         handleNext={handleNext}
-        setActive={setActive}
-        currentIndex={currentIndex}
-        setCurrentIndex={setCurrentIndex}
-        setStart={setStart}
         active={active}
         start={start}
-        ultimateQuiz={ultimateQuiz}
-        end={end} 
-        setEnd={setEnd}
     />
-      }  
+      }
+      {end && !ultimateQuiz[currentIndex] && active && start && (
+        <div>
+          <Button variant="contained" onClick={handlePlayAgain}>
+            Play again
+          </Button>
+          <Ranking currentIndex={currentIndex} ultimateQuiz={ultimateQuiz} />
+        </div>
+      )}  
     </>
   )
 }

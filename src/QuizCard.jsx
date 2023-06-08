@@ -1,6 +1,6 @@
 import { useUser } from "./UserContext";
 import { useState, useEffect } from "react";
-import Ranking from "./Ranking";
+import { Typography, Button, Grid } from "@mui/material";
 
 function QuizCard(props) {
   const { setUser } = useUser();
@@ -11,13 +11,8 @@ function QuizCard(props) {
   const {
     object,
     handleNext,
-    setActive,
-    currentIndex,
-    setCurrentIndex,
-    setStart,
     active,
-    start,
-    ultimateQuiz,
+    start
   } = props;
 
   const handleSelected = (answer) => {
@@ -58,54 +53,39 @@ function QuizCard(props) {
     }
   }, [handleNext, object]);
 
-  const handlePlayAgain = () => {
-    setUser({
-      username: "",
-      score: 0,
-    });
-    setCurrentIndex(0);
-    setActive(false);
-    setStart(false);
-    setEnd(false);
-  };
 
-  useEffect(() => {
-    if (ultimateQuiz && currentIndex === ultimateQuiz.length) {
-      setEnd(true);
-    }
-  }, [ultimateQuiz, currentIndex]);
 
   return (
-    <section>
+    <div>
       {object && active && start && (
         <div>
-          <p>{timer}</p>
-          <h2>{object.question}</h2>
-          <ul>
+          <Typography variant="h5" align="center" gutterBottom>
+            {timer}
+          </Typography>
+          <Typography variant="h6" align="center" gutterBottom>
+            {object.question}
+          </Typography>
+          <Grid container spacing={2} justifyContent="center">
             {object.answers.map((answer, index) => (
-              <li
-                key={index}
-                onClick={() => handleSelected(answer)}
-                style={{
-                  backgroundColor:
-                    showSolution && answer === object.correct_answer
-                      ? "green"
-                      : null,
-                }}
-              >
-                {answer}
-              </li>
+              <Grid item key={index}>
+                <Button
+                  variant="contained"
+                  onClick={() => handleSelected(answer)}
+                  style={{
+                    backgroundColor:
+                      showSolution && answer === object.correct_answer
+                        ? "green"
+                        : null,
+                  }}
+                >
+                  {answer}
+                </Button>
+              </Grid>
             ))}
-          </ul>
+          </Grid>
         </div>
       )}
-      {end && !object && active && start && (
-        <div>
-          <Ranking currentIndex={currentIndex} ultimateQuiz={ultimateQuiz} />
-          <button onClick={handlePlayAgain}>Play again</button>
-        </div>
-      )}
-    </section>
+    </div>
   );
 }
 
