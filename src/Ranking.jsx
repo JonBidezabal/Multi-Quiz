@@ -14,9 +14,9 @@ function Ranking({ currentIndex, ultimateQuiz }) {
       const arrayPlayers = JSON.parse(localStorage.getItem("players")) || [];
       const players = [...arrayPlayers, currentPlayer];
       let savePlayers = localStorage.setItem("players", JSON.stringify(players));
-      setRanking(arrayPlayers);
+      setRanking(players);
     }
-  }, [currentIndex, user, ultimateQuiz]);
+  }, [ user ]);
 
   if (ranking.length === 0) {
     return null;
